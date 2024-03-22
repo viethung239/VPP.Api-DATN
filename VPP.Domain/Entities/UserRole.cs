@@ -11,15 +11,15 @@ namespace VPP.Domain.Entities
     {
 
         public Guid UserRoleId { get; set; }
-        public Guid UserId { get; set; }
-        public Guid RoleId { get; set; } 
+        public Guid? UserId { get; set; }
+        public Guid? RoleId { get; set; } 
 
         //
         //
         [ForeignKey("RoleId")]
-        public Role? Role { get; set; }
+        public Role? Roles { get; set; }
 
         [ForeignKey("UserId")]
-        public User? User { get; set; }
+        public User? Users { get; set; }
     }
 }

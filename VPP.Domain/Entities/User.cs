@@ -18,16 +18,23 @@ namespace VPP.Domain.Entities
         public string? FullName { get; set; }
         public string? Phone { get; set; }
         public string? Address { get; set; }
+        public string? Comune { get; set; }
+        public string? District { get; set; }
+        public string? City { get; set; }
         public DateTime? BirthDay { get; set; }
         public int? Gender { get; set; }
+        public bool? IsAdmin { get; set; }
+        public bool? IsActive { get; set; }
         public DateTime? DateCreated { get; set; }
         public DateTime? DateUpdated { get; set; }
-        public bool? IsActive { get; set; }
-        public bool? IsAdmin { get; set;}
+       
+      
 
         //
-        public ICollection<UserRole> UserRoles { get; set; }
+        public ICollection<UserRole>? UserRoles { get; set; }
+        public ICollection<Post>? Posts { get; set; }
+        public ICollection<Order>? Orders { get; set; }
         //
-        
+
     }
 }

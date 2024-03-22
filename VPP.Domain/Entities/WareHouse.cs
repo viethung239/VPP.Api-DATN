@@ -6,19 +6,15 @@ using System.Threading.Tasks;
 
 namespace VPP.Domain.Entities
 {
-    public class Role
+    public class WareHouse
     {
-        public Guid RoleId { get; set; }
-        public string? RoleName { get; set; }
-        public string? RoleDescription { get; set; }
+        public Guid WareHouseId { get; set; }
+        public string? WareHouseName { get; set; }
         public bool? IsActive { get; set; }
         public DateTime? DateCreated { get; set; }
         public DateTime? DateUpdated { get; set; }
 
-
-
-
-        public ICollection<UserRole>? UserRoles { get; set; }
         //
+        public ICollection<WareHouseDetail>? WareHouseDetails { get; set; }
     }
 }

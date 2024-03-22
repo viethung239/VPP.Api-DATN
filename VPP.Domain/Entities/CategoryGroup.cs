@@ -6,19 +6,15 @@ using System.Threading.Tasks;
 
 namespace VPP.Domain.Entities
 {
-    public class Role
+    public class CategoryGroup
     {
-        public Guid RoleId { get; set; }
-        public string? RoleName { get; set; }
-        public string? RoleDescription { get; set; }
+        public Guid CategoryGroupId { get; set; }
+        public string? CategoryGroupName { get; set; }
         public bool? IsActive { get; set; }
         public DateTime? DateCreated { get; set; }
         public DateTime? DateUpdated { get; set; }
 
-
-
-
-        public ICollection<UserRole>? UserRoles { get; set; }
         //
+        public ICollection<Category>? Categorys { get; set; }
     }
 }
