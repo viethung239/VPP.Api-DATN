@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using VPP.Application.Dto.User;
+using VPP.Application.Dto;
 using VPP.Application.Services.User;
 
 namespace VPP.Api.Controllers
@@ -22,14 +22,14 @@ namespace VPP.Api.Controllers
         {
             try
             {
-                // Kiểm tra xem tài khoản tồn tại
+               
                 var existingUser = _userService.GetAll().FirstOrDefault(x => x.UserName == userDto.UserName);
                 if (existingUser != null)
                 {
                     return BadRequest(new { Message = "Tài khoản đã tồn tại." });
                 }
 
-                // Thêm người dùng mới
+                
                 userDto.UserId = Guid.NewGuid();
                 var isAdded = _userService.Add(userDto);
                

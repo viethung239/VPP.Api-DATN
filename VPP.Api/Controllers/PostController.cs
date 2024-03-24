@@ -1,34 +1,35 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using VPP.Application.Dto;
-using VPP.Application.Services.Role;
+using VPP.Application.Services.Category;
+using VPP.Application.Services.Post;
 
 namespace VPP.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class RoleController : ControllerBase
+    public class PostController : ControllerBase
     {
-        private readonly IRoleService _roleService;
-        public RoleController(IRoleService roleService)
+        private readonly IPostService _postService;
+        public PostController(IPostService postService)
         {
-            _roleService = roleService;
+            _postService = postService;
         }
 
         [HttpPost]
-        public IActionResult AddRole(RoleDto roleDto)
+        public IActionResult AddPost(PostDto postDto)
         {
             try
             {
-                roleDto.RoleId = Guid.NewGuid();
+                postDto.PostId = Guid.NewGuid();
 
-                if (_roleService.Add(roleDto))
+                if (_postService.Add(postDto))
                 {
-                    return CreatedAtAction(nameof(GetRoleById), new { id = roleDto.RoleId }, roleDto);
+                    return CreatedAtAction(nameof(GetPostById), new { id = postDto.PostId }, postDto);
                 }
                 else
                 {
-                    return BadRequest(new { Message = "Không thể thêm quyền." });
+                    return BadRequest(new { Message = "Không thể thêm bài viết." });
                 }
             }
             catch (Exception ex)
@@ -37,12 +38,12 @@ namespace VPP.Api.Controllers
             }
         }
         [HttpGet]
-        public IActionResult GetAllRoles()
+        public IActionResult GetAllPosts()
         {
             try
             {
-                var roles = _roleService.GetAll();
-                return Ok(roles);
+                var posts = _postService.GetAll();
+                return Ok(posts);
             }
             catch (Exception ex)
             {
@@ -51,16 +52,16 @@ namespace VPP.Api.Controllers
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetRoleById(Guid id)
+        public IActionResult GetPostById(Guid id)
         {
             try
             {
-                var role = _roleService.Get(id);
-                if (role == null)
+                var post = _postService.Get(id);
+                if (post == null)
                 {
                     return NotFound();
                 }
-                return Ok(role);
+                return Ok(post);
             }
             catch (Exception ex)
             {
@@ -68,12 +69,12 @@ namespace VPP.Api.Controllers
             }
         }
         [HttpPut("{id}")]
-        public IActionResult UpdateRole(Guid id, RoleDto roleDto)
+        public IActionResult UpdatePost(Guid id, PostDto postDto)
         {
             try
             {
-                roleDto.RoleId = id;
-                var isUpdated = _roleService.Update(roleDto);
+                postDto.PostId = id;
+                var isUpdated = _postService.Update(postDto);
                 if (isUpdated)
                 {
                     return NoContent();
@@ -90,18 +91,18 @@ namespace VPP.Api.Controllers
         }
 
         [HttpDelete("{id}")]
-        public IActionResult DeleteRole(Guid id)
+        public IActionResult DeletePost(Guid id)
         {
             try
             {
-                var isDeleted = _roleService.Delete(id);
+                var isDeleted = _postService.Delete(id);
                 if (isDeleted)
                 {
                     return NoContent();
                 }
                 else
                 {
-                    return NotFound("Không thể xóa vì quyền này không tồn tại");
+                    return NotFound("Không thể xóa vì bài viết này không tồn tại");
                 }
             }
             catch (Exception ex)

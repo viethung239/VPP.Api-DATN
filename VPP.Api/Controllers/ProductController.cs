@@ -1,34 +1,35 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using VPP.Application.Dto;
-using VPP.Application.Services.Role;
+using VPP.Application.Services.Category;
+using VPP.Application.Services.Product;
 
 namespace VPP.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class RoleController : ControllerBase
+    public class ProductController : ControllerBase
     {
-        private readonly IRoleService _roleService;
-        public RoleController(IRoleService roleService)
+        private readonly IProductService _productService;
+        public ProductController(IProductService productService)
         {
-            _roleService = roleService;
+            _productService = productService;
         }
 
         [HttpPost]
-        public IActionResult AddRole(RoleDto roleDto)
+        public IActionResult AddProduct(ProductDto productDto)
         {
             try
             {
-                roleDto.RoleId = Guid.NewGuid();
+                productDto.ProductId = Guid.NewGuid();
 
-                if (_roleService.Add(roleDto))
+                if (_productService.Add(productDto))
                 {
-                    return CreatedAtAction(nameof(GetRoleById), new { id = roleDto.RoleId }, roleDto);
+                    return CreatedAtAction(nameof(GetProductById), new { id = productDto.ProductId }, productDto);
                 }
                 else
                 {
-                    return BadRequest(new { Message = "Không thể thêm quyền." });
+                    return BadRequest(new { Message = "Không thể thêm sản phẩm." });
                 }
             }
             catch (Exception ex)
@@ -37,12 +38,12 @@ namespace VPP.Api.Controllers
             }
         }
         [HttpGet]
-        public IActionResult GetAllRoles()
+        public IActionResult GetAllProducts()
         {
             try
             {
-                var roles = _roleService.GetAll();
-                return Ok(roles);
+                var products = _productService.GetAll();
+                return Ok(products);
             }
             catch (Exception ex)
             {
@@ -51,16 +52,16 @@ namespace VPP.Api.Controllers
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetRoleById(Guid id)
+        public IActionResult GetProductById(Guid id)
         {
             try
             {
-                var role = _roleService.Get(id);
-                if (role == null)
+                var product = _productService.Get(id);
+                if (product == null)
                 {
                     return NotFound();
                 }
-                return Ok(role);
+                return Ok(product);
             }
             catch (Exception ex)
             {
@@ -68,12 +69,12 @@ namespace VPP.Api.Controllers
             }
         }
         [HttpPut("{id}")]
-        public IActionResult UpdateRole(Guid id, RoleDto roleDto)
+        public IActionResult UpdateProduct(Guid id, ProductDto productDto)
         {
             try
             {
-                roleDto.RoleId = id;
-                var isUpdated = _roleService.Update(roleDto);
+                productDto.ProductId = id;
+                var isUpdated = _productService.Update(productDto);
                 if (isUpdated)
                 {
                     return NoContent();
@@ -90,18 +91,18 @@ namespace VPP.Api.Controllers
         }
 
         [HttpDelete("{id}")]
-        public IActionResult DeleteRole(Guid id)
+        public IActionResult DeleteProduct(Guid id)
         {
             try
             {
-                var isDeleted = _roleService.Delete(id);
+                var isDeleted = _productService.Delete(id);
                 if (isDeleted)
                 {
                     return NoContent();
                 }
                 else
                 {
-                    return NotFound("Không thể xóa vì quyền này không tồn tại");
+                    return NotFound("Không thể xóa vì sản phẩm này không tồn tại");
                 }
             }
             catch (Exception ex)

@@ -1,34 +1,35 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using VPP.Application.Dto;
-using VPP.Application.Services.Role;
+using VPP.Application.Services.CompanySupplier;
+using VPP.Application.Services.Order;
 
 namespace VPP.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class RoleController : ControllerBase
+    public class OrderController : ControllerBase
     {
-        private readonly IRoleService _roleService;
-        public RoleController(IRoleService roleService)
+        private readonly IOrderService _orderService;
+        public OrderController(IOrderService orderService)
         {
-            _roleService = roleService;
+            _orderService = orderService;
         }
 
         [HttpPost]
-        public IActionResult AddRole(RoleDto roleDto)
+        public IActionResult AddOrder(OrderDto orderDto)
         {
             try
             {
-                roleDto.RoleId = Guid.NewGuid();
+                orderDto.OrderId = Guid.NewGuid();
 
-                if (_roleService.Add(roleDto))
+                if (_orderService.Add(orderDto))
                 {
-                    return CreatedAtAction(nameof(GetRoleById), new { id = roleDto.RoleId }, roleDto);
+                    return CreatedAtAction(nameof(GetOrderById), new { id = orderDto.OrderId }, orderDto);
                 }
                 else
                 {
-                    return BadRequest(new { Message = "Không thể thêm quyền." });
+                    return BadRequest(new { Message = "Không thể thêm đơn hàng." });
                 }
             }
             catch (Exception ex)
@@ -37,12 +38,12 @@ namespace VPP.Api.Controllers
             }
         }
         [HttpGet]
-        public IActionResult GetAllRoles()
+        public IActionResult GetAllOrders()
         {
             try
             {
-                var roles = _roleService.GetAll();
-                return Ok(roles);
+                var orders = _orderService.GetAll();
+                return Ok(orders);
             }
             catch (Exception ex)
             {
@@ -51,16 +52,16 @@ namespace VPP.Api.Controllers
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetRoleById(Guid id)
+        public IActionResult GetOrderById(Guid id)
         {
             try
             {
-                var role = _roleService.Get(id);
-                if (role == null)
+                var order = _orderService.Get(id);
+                if (order == null)
                 {
                     return NotFound();
                 }
-                return Ok(role);
+                return Ok(order);
             }
             catch (Exception ex)
             {
@@ -68,12 +69,12 @@ namespace VPP.Api.Controllers
             }
         }
         [HttpPut("{id}")]
-        public IActionResult UpdateRole(Guid id, RoleDto roleDto)
+        public IActionResult UpdateOrder(Guid id, OrderDto orderDto)
         {
             try
             {
-                roleDto.RoleId = id;
-                var isUpdated = _roleService.Update(roleDto);
+                orderDto.OrderId = id;
+                var isUpdated = _orderService.Update(orderDto);
                 if (isUpdated)
                 {
                     return NoContent();
@@ -90,18 +91,18 @@ namespace VPP.Api.Controllers
         }
 
         [HttpDelete("{id}")]
-        public IActionResult DeleteRole(Guid id)
+        public IActionResult DeleteOrder(Guid id)
         {
             try
             {
-                var isDeleted = _roleService.Delete(id);
+                var isDeleted = _orderService.Delete(id);
                 if (isDeleted)
                 {
                     return NoContent();
                 }
                 else
                 {
-                    return NotFound("Không thể xóa vì quyền này không tồn tại");
+                    return NotFound("Không thể xóa vì đơn hàng này này không tồn tại");
                 }
             }
             catch (Exception ex)

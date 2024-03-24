@@ -4,7 +4,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using VPP.Application.Dto.User;
+using VPP.Application.Dto;
 using VPP.Application.Services.Role;
 using VPP.Application.Services.User;
 using VPP.Application.Services.UserRole;
@@ -87,6 +87,62 @@ namespace VPP.Api.Controllers
 
             return Unauthorized();
         }
+
+        [HttpPost("dang-ky")]
+        public IActionResult DangKy([FromBody] UserDto userDto)
+        {
+        
+            if (userDto == null || string.IsNullOrEmpty(userDto.UserName) || string.IsNullOrEmpty(userDto.Password))
+            {
+                return BadRequest(new { Message = "Thông tin người dùng không hợp lệ." });
+            }
+
+          
+            if (_userService.GetAll().Any(x => x.UserName == userDto.UserName))
+            {
+                return BadRequest(new { Message = "Tên tài khoản đã tồn tại." });
+            }
+
+            userDto.UserId = Guid.NewGuid();
+            if (_userService.Add(userDto))
+            {
+              
+                var addedUser = _userService.GetAll().FirstOrDefault(x => x.UserName == userDto.UserName);
+               
+                if (addedUser != null)
+                {
+                    
+                    var defaultRole = _roleService.GetAll().FirstOrDefault(r => r.RoleName == "User");
+
+                    if (defaultRole != null)
+                    {
+                       
+                        var userRole = new UserRoleDto
+                        {
+                            UserId = addedUser.UserId,
+                            RoleId = defaultRole.RoleId
+                        };
+
+                        _urService.Add(userRole);
+
+                        return Ok(new { Message = "Đăng ký thành công" });
+                    }
+                    else
+                    {
+                        return BadRequest(new { Message = "Không tìm thấy vai trò mặc định." });
+                    }
+                }
+                else
+                {
+                    return BadRequest(new { Message = "Đăng ký không thành công" });
+                }
+            }
+            else
+            {
+                return BadRequest(new { Message = "Đăng ký không thành công" });
+            }
+        }
+
 
 
     }

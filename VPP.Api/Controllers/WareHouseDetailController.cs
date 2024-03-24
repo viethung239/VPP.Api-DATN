@@ -1,34 +1,35 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using VPP.Application.Dto;
-using VPP.Application.Services.Role;
+using VPP.Application.Services.WareHouse;
+using VPP.Application.Services.WareHouseDetail;
 
 namespace VPP.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class RoleController : ControllerBase
+    public class WareHouseDetailController : ControllerBase
     {
-        private readonly IRoleService _roleService;
-        public RoleController(IRoleService roleService)
+        private readonly IWareHouseDetailService _whdService;
+        public WareHouseDetailController(IWareHouseDetailService whdService)
         {
-            _roleService = roleService;
+            _whdService = whdService;
         }
 
         [HttpPost]
-        public IActionResult AddRole(RoleDto roleDto)
+        public IActionResult AddWareHouse(WareHouseDetailDto whdDto)
         {
             try
             {
-                roleDto.RoleId = Guid.NewGuid();
+                whdDto.WareHouseDetailId = Guid.NewGuid();
 
-                if (_roleService.Add(roleDto))
+                if (_whdService.Add(whdDto))
                 {
-                    return CreatedAtAction(nameof(GetRoleById), new { id = roleDto.RoleId }, roleDto);
+                    return CreatedAtAction(nameof(GetWareHouseDetailById), new { id = whdDto.WareHouseDetailId }, whdDto);
                 }
                 else
                 {
-                    return BadRequest(new { Message = "Không thể thêm quyền." });
+                    return BadRequest(new { Message = "Không thể thêm kho chi tiết." });
                 }
             }
             catch (Exception ex)
@@ -37,12 +38,12 @@ namespace VPP.Api.Controllers
             }
         }
         [HttpGet]
-        public IActionResult GetAllRoles()
+        public IActionResult GetAllWareHouseDetails()
         {
             try
             {
-                var roles = _roleService.GetAll();
-                return Ok(roles);
+                var whds = _whdService.GetAll();
+                return Ok(whds);
             }
             catch (Exception ex)
             {
@@ -51,16 +52,16 @@ namespace VPP.Api.Controllers
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetRoleById(Guid id)
+        public IActionResult GetWareHouseDetailById(Guid id)
         {
             try
             {
-                var role = _roleService.Get(id);
-                if (role == null)
+                var whd = _whdService.Get(id);
+                if (whd == null)
                 {
                     return NotFound();
                 }
-                return Ok(role);
+                return Ok(whd);
             }
             catch (Exception ex)
             {
@@ -68,12 +69,12 @@ namespace VPP.Api.Controllers
             }
         }
         [HttpPut("{id}")]
-        public IActionResult UpdateRole(Guid id, RoleDto roleDto)
+        public IActionResult UpdateWareHouse(Guid id, WareHouseDetailDto whdDto)
         {
             try
             {
-                roleDto.RoleId = id;
-                var isUpdated = _roleService.Update(roleDto);
+                whdDto.WareHouseDetailId = id;
+                var isUpdated = _whdService.Update(whdDto);
                 if (isUpdated)
                 {
                     return NoContent();
@@ -90,18 +91,18 @@ namespace VPP.Api.Controllers
         }
 
         [HttpDelete("{id}")]
-        public IActionResult DeleteRole(Guid id)
+        public IActionResult DeleteWareHouseDetail(Guid id)
         {
             try
             {
-                var isDeleted = _roleService.Delete(id);
+                var isDeleted = _whdService.Delete(id);
                 if (isDeleted)
                 {
                     return NoContent();
                 }
                 else
                 {
-                    return NotFound("Không thể xóa vì quyền này không tồn tại");
+                    return NotFound("Không thể xóa kho chi tiết này không tồn tại");
                 }
             }
             catch (Exception ex)

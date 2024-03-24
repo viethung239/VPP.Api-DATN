@@ -1,34 +1,35 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using VPP.Application.Dto;
-using VPP.Application.Services.Role;
+using VPP.Application.Services.CategoryGroup;
+using VPP.Application.Services.CompanySupplier;
 
 namespace VPP.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class RoleController : ControllerBase
+    public class CompanySupplierController : ControllerBase
     {
-        private readonly IRoleService _roleService;
-        public RoleController(IRoleService roleService)
+        private readonly ICompanySupplierService _splService;
+        public CompanySupplierController(ICompanySupplierService splService)
         {
-            _roleService = roleService;
+            _splService = splService;
         }
 
         [HttpPost]
-        public IActionResult AddRole(RoleDto roleDto)
+        public IActionResult AddCompanySupplier(CompanySupplierDto splDto)
         {
             try
             {
-                roleDto.RoleId = Guid.NewGuid();
+                splDto.SupplierId = Guid.NewGuid();
 
-                if (_roleService.Add(roleDto))
+                if (_splService.Add(splDto))
                 {
-                    return CreatedAtAction(nameof(GetRoleById), new { id = roleDto.RoleId }, roleDto);
+                    return CreatedAtAction(nameof(GetCompanySupplierById), new { id = splDto.SupplierId }, splDto);
                 }
                 else
                 {
-                    return BadRequest(new { Message = "Không thể thêm quyền." });
+                    return BadRequest(new { Message = "Không thể thêm nhà cung cấp." });
                 }
             }
             catch (Exception ex)
@@ -37,12 +38,12 @@ namespace VPP.Api.Controllers
             }
         }
         [HttpGet]
-        public IActionResult GetAllRoles()
+        public IActionResult GetAllCompanySuppliers()
         {
             try
             {
-                var roles = _roleService.GetAll();
-                return Ok(roles);
+                var spls = _splService.GetAll();
+                return Ok(spls);
             }
             catch (Exception ex)
             {
@@ -51,16 +52,16 @@ namespace VPP.Api.Controllers
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetRoleById(Guid id)
+        public IActionResult GetCompanySupplierById(Guid id)
         {
             try
             {
-                var role = _roleService.Get(id);
-                if (role == null)
+                var spl = _splService.Get(id);
+                if (spl == null)
                 {
                     return NotFound();
                 }
-                return Ok(role);
+                return Ok(spl);
             }
             catch (Exception ex)
             {
@@ -68,12 +69,12 @@ namespace VPP.Api.Controllers
             }
         }
         [HttpPut("{id}")]
-        public IActionResult UpdateRole(Guid id, RoleDto roleDto)
+        public IActionResult UpdateCompanySupplier(Guid id, CompanySupplierDto splDto)
         {
             try
             {
-                roleDto.RoleId = id;
-                var isUpdated = _roleService.Update(roleDto);
+                splDto.SupplierId = id;
+                var isUpdated = _splService.Update(splDto);
                 if (isUpdated)
                 {
                     return NoContent();
@@ -90,18 +91,18 @@ namespace VPP.Api.Controllers
         }
 
         [HttpDelete("{id}")]
-        public IActionResult DeleteRole(Guid id)
+        public IActionResult DeleteCompanySupplier(Guid id)
         {
             try
             {
-                var isDeleted = _roleService.Delete(id);
+                var isDeleted = _splService.Delete(id);
                 if (isDeleted)
                 {
                     return NoContent();
                 }
                 else
                 {
-                    return NotFound("Không thể xóa vì quyền này không tồn tại");
+                    return NotFound("Không thể xóa vì nhà cung cấp này này không tồn tại");
                 }
             }
             catch (Exception ex)

@@ -1,34 +1,35 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using VPP.Application.Dto;
-using VPP.Application.Services.Role;
+using VPP.Application.Services.Category;
+using VPP.Application.Services.CategoryGroup;
 
 namespace VPP.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class RoleController : ControllerBase
+    public class CategoryGroupController : ControllerBase
     {
-        private readonly IRoleService _roleService;
-        public RoleController(IRoleService roleService)
+        private readonly ICategoryGroupService _categorygroupService;
+        public CategoryGroupController(ICategoryGroupService categorygroupService)
         {
-            _roleService = roleService;
+            _categorygroupService = categorygroupService;
         }
 
         [HttpPost]
-        public IActionResult AddRole(RoleDto roleDto)
+        public IActionResult AddCategoryGroup(CategoryGroupDto categorygroupDto)
         {
             try
             {
-                roleDto.RoleId = Guid.NewGuid();
+                categorygroupDto.CategoryGroupId = Guid.NewGuid();
 
-                if (_roleService.Add(roleDto))
+                if (_categorygroupService.Add(categorygroupDto))
                 {
-                    return CreatedAtAction(nameof(GetRoleById), new { id = roleDto.RoleId }, roleDto);
+                    return CreatedAtAction(nameof(GetCategoryGroupById), new { id = categorygroupDto.CategoryGroupId }, categorygroupDto);
                 }
                 else
                 {
-                    return BadRequest(new { Message = "Không thể thêm quyền." });
+                    return BadRequest(new { Message = "Không thể thêm nhóm danh mục." });
                 }
             }
             catch (Exception ex)
@@ -37,12 +38,12 @@ namespace VPP.Api.Controllers
             }
         }
         [HttpGet]
-        public IActionResult GetAllRoles()
+        public IActionResult GetAllCategoryGroups()
         {
             try
             {
-                var roles = _roleService.GetAll();
-                return Ok(roles);
+                var categorygroups = _categorygroupService.GetAll();
+                return Ok(categorygroups);
             }
             catch (Exception ex)
             {
@@ -51,16 +52,16 @@ namespace VPP.Api.Controllers
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetRoleById(Guid id)
+        public IActionResult GetCategoryGroupById(Guid id)
         {
             try
             {
-                var role = _roleService.Get(id);
-                if (role == null)
+                var categorygroup = _categorygroupService.Get(id);
+                if (categorygroup == null)
                 {
                     return NotFound();
                 }
-                return Ok(role);
+                return Ok(categorygroup);
             }
             catch (Exception ex)
             {
@@ -68,12 +69,12 @@ namespace VPP.Api.Controllers
             }
         }
         [HttpPut("{id}")]
-        public IActionResult UpdateRole(Guid id, RoleDto roleDto)
+        public IActionResult UpdateCategoryGroup(Guid id, CategoryGroupDto categorygroupDto)
         {
             try
             {
-                roleDto.RoleId = id;
-                var isUpdated = _roleService.Update(roleDto);
+                categorygroupDto.CategoryGroupId = id;
+                var isUpdated = _categorygroupService.Update(categorygroupDto);
                 if (isUpdated)
                 {
                     return NoContent();
@@ -90,18 +91,18 @@ namespace VPP.Api.Controllers
         }
 
         [HttpDelete("{id}")]
-        public IActionResult DeleteRole(Guid id)
+        public IActionResult DeleteCategoryGroup(Guid id)
         {
             try
             {
-                var isDeleted = _roleService.Delete(id);
+                var isDeleted = _categorygroupService.Delete(id);
                 if (isDeleted)
                 {
                     return NoContent();
                 }
                 else
                 {
-                    return NotFound("Không thể xóa vì quyền này không tồn tại");
+                    return NotFound("Không thể xóa vì nhóm danh mục này này không tồn tại");
                 }
             }
             catch (Exception ex)

@@ -1,34 +1,36 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using VPP.Application.Dto;
+using VPP.Application.Services.Category;
 using VPP.Application.Services.Role;
+using VPP.Domain.Entities;
 
 namespace VPP.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class RoleController : ControllerBase
+    public class CategoryController : ControllerBase
     {
-        private readonly IRoleService _roleService;
-        public RoleController(IRoleService roleService)
+        private readonly ICategoryService _categoryService;
+        public CategoryController(ICategoryService categoryService)
         {
-            _roleService = roleService;
+            _categoryService = categoryService;
         }
 
         [HttpPost]
-        public IActionResult AddRole(RoleDto roleDto)
+        public IActionResult AddCategory(CategoryDto categoryDto)
         {
             try
             {
-                roleDto.RoleId = Guid.NewGuid();
+                categoryDto.CategoryId = Guid.NewGuid();
 
-                if (_roleService.Add(roleDto))
+                if (_categoryService.Add(categoryDto))
                 {
-                    return CreatedAtAction(nameof(GetRoleById), new { id = roleDto.RoleId }, roleDto);
+                    return CreatedAtAction(nameof(GetCategoryById), new { id = categoryDto.CategoryId }, categoryDto);
                 }
                 else
                 {
-                    return BadRequest(new { Message = "Không thể thêm quyền." });
+                    return BadRequest(new { Message = "Không thể thêm danh mục." });
                 }
             }
             catch (Exception ex)
@@ -37,12 +39,12 @@ namespace VPP.Api.Controllers
             }
         }
         [HttpGet]
-        public IActionResult GetAllRoles()
+        public IActionResult GetAllCategorys()
         {
             try
             {
-                var roles = _roleService.GetAll();
-                return Ok(roles);
+                var categorys = _categoryService.GetAll();
+                return Ok(categorys);
             }
             catch (Exception ex)
             {
@@ -51,16 +53,16 @@ namespace VPP.Api.Controllers
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetRoleById(Guid id)
+        public IActionResult GetCategoryById(Guid id)
         {
             try
             {
-                var role = _roleService.Get(id);
-                if (role == null)
+                var category = _categoryService.Get(id);
+                if (category == null)
                 {
                     return NotFound();
                 }
-                return Ok(role);
+                return Ok(category);
             }
             catch (Exception ex)
             {
@@ -68,12 +70,12 @@ namespace VPP.Api.Controllers
             }
         }
         [HttpPut("{id}")]
-        public IActionResult UpdateRole(Guid id, RoleDto roleDto)
+        public IActionResult UpdateCategory(Guid id, CategoryDto categoryDto)
         {
             try
             {
-                roleDto.RoleId = id;
-                var isUpdated = _roleService.Update(roleDto);
+                categoryDto.CategoryId = id;
+                var isUpdated = _categoryService.Update(categoryDto);
                 if (isUpdated)
                 {
                     return NoContent();
@@ -90,18 +92,18 @@ namespace VPP.Api.Controllers
         }
 
         [HttpDelete("{id}")]
-        public IActionResult DeleteRole(Guid id)
+        public IActionResult DeleteCategory(Guid id)
         {
             try
             {
-                var isDeleted = _roleService.Delete(id);
+                var isDeleted = _categoryService.Delete(id);
                 if (isDeleted)
                 {
                     return NoContent();
                 }
                 else
                 {
-                    return NotFound("Không thể xóa vì quyền này không tồn tại");
+                    return NotFound("Không thể xóa vì danh mục này này không tồn tại");
                 }
             }
             catch (Exception ex)

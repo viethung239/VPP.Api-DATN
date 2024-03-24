@@ -4,15 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace VPP.Application.Dto.User
+namespace VPP.Application.Dto
 {
-    public class RoleDto
+    public class CategoryGroupDto
     {
-        public Guid RoleId { get; set; }
-        public string? RoleName { get; set; }
-        public string? RoleDescription { get; set; }
+        public Guid CategoryGroupId { get; set; }
+        public string? CategoryGroupName { get; set; }
+        public bool? IsActive { get; set; }
         public DateTime? DateCreated { get; set; }
         public DateTime? DateUpdated { get; set; }
-
     }
 }

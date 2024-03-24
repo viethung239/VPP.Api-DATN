@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using VPP.Application.Dto.User;
+using VPP.Application.Dto;
 using VPP.Domain.Entities;
 
 namespace VPP.Application.Mapping
@@ -14,9 +14,19 @@ namespace VPP.Application.Mapping
         public MappingProfile()
         {
 
+            CreateMap<Category, CategoryDto>();
+            CreateMap<CategoryGroup, CategoryGroupDto>();
+            CreateMap<CompanySupplier, CompanySupplierDto>();
+            CreateMap<Order, OrderDto>();
+            CreateMap<OrderDetail, OrderDetailDto>();
+            CreateMap<Product, ProductDto>();  
+            CreateMap<Post, PostDto>();
             CreateMap<User, UserDto>().ReverseMap();
             CreateMap<Role, RoleDto>().ReverseMap();
             CreateMap<UserRole, UserRoleDto>().ReverseMap();
+            CreateMap<WareHouse, WareHouseDto>();
+            CreateMap<WareHouseDetail, WareHouseDetailDto>();
+            
         }
     }
 }

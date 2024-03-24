@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using VPP.Application.Dto.User;
+using VPP.Application.Dto;
 using VPP.Application.Services.UserRole;
 
 namespace VPP.Api.Controllers
