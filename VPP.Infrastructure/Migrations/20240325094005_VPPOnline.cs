@@ -110,7 +110,7 @@ namespace VPP.Infrastructure.Migrations
                 columns: table => new
                 {
                     CategoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CategoryGroupId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    CategoryGroupId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CategoryName = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     CategoryImg = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
                     IsActive = table.Column<bool>(type: "bit", nullable: true),
@@ -124,7 +124,8 @@ namespace VPP.Infrastructure.Migrations
                         name: "FK_Category_CategoryGroup_CategoryGroupId",
                         column: x => x.CategoryGroupId,
                         principalTable: "CategoryGroup",
-                        principalColumn: "CategoryGroupId");
+                        principalColumn: "CategoryGroupId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -132,7 +133,7 @@ namespace VPP.Infrastructure.Migrations
                 columns: table => new
                 {
                     OrderId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     TotalAmount = table.Column<float>(type: "real", nullable: true),
                     OrderCode = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: true),
                     PaymentType = table.Column<int>(type: "int", nullable: true),
@@ -148,7 +149,8 @@ namespace VPP.Infrastructure.Migrations
                         name: "FK_Order_User_UserId",
                         column: x => x.UserId,
                         principalTable: "User",
-                        principalColumn: "UserId");
+                        principalColumn: "UserId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -156,7 +158,7 @@ namespace VPP.Infrastructure.Migrations
                 columns: table => new
                 {
                     PostId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     PostName = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: true),
                     PostImg = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
                     SContent = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
@@ -172,7 +174,8 @@ namespace VPP.Infrastructure.Migrations
                         name: "FK_Post_User_UserId",
                         column: x => x.UserId,
                         principalTable: "User",
-                        principalColumn: "UserId");
+                        principalColumn: "UserId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -180,8 +183,8 @@ namespace VPP.Infrastructure.Migrations
                 columns: table => new
                 {
                     UserRoleId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    RoleId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    RoleId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -190,12 +193,14 @@ namespace VPP.Infrastructure.Migrations
                         name: "FK_UserRole_Role_RoleId",
                         column: x => x.RoleId,
                         principalTable: "Role",
-                        principalColumn: "RoleId");
+                        principalColumn: "RoleId",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_UserRole_User_UserId",
                         column: x => x.UserId,
                         principalTable: "User",
-                        principalColumn: "UserId");
+                        principalColumn: "UserId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -203,7 +208,7 @@ namespace VPP.Infrastructure.Migrations
                 columns: table => new
                 {
                     ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CategoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    CategoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     ProductName = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: true),
                     ProductPrice = table.Column<float>(type: "real", nullable: true),
                     SDescription = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
@@ -220,7 +225,8 @@ namespace VPP.Infrastructure.Migrations
                         name: "FK_Product_Category_CategoryId",
                         column: x => x.CategoryId,
                         principalTable: "Category",
-                        principalColumn: "CategoryId");
+                        principalColumn: "CategoryId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -228,8 +234,8 @@ namespace VPP.Infrastructure.Migrations
                 columns: table => new
                 {
                     OrderDetailId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    OrderId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    OrderId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Quantity = table.Column<int>(type: "int", nullable: true),
                     Price = table.Column<float>(type: "real", nullable: true),
                     Total = table.Column<float>(type: "real", nullable: true),
@@ -243,12 +249,14 @@ namespace VPP.Infrastructure.Migrations
                         name: "FK_OrderDetail_Order_OrderId",
                         column: x => x.OrderId,
                         principalTable: "Order",
-                        principalColumn: "OrderId");
+                        principalColumn: "OrderId",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_OrderDetail_Product_ProductId",
                         column: x => x.ProductId,
                         principalTable: "Product",
-                        principalColumn: "ProductId");
+                        principalColumn: "ProductId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -256,9 +264,9 @@ namespace VPP.Infrastructure.Migrations
                 columns: table => new
                 {
                     WareHouseDetailId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    WareHouseId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    SupplierId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    WareHouseId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    SupplierId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Quantity = table.Column<float>(type: "real", nullable: true),
                     IsActive = table.Column<bool>(type: "bit", nullable: true),
                     DateCreated = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -271,17 +279,20 @@ namespace VPP.Infrastructure.Migrations
                         name: "FK_WareHouseDetail_CompanySupplier_SupplierId",
                         column: x => x.SupplierId,
                         principalTable: "CompanySupplier",
-                        principalColumn: "SupplierId");
+                        principalColumn: "SupplierId",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_WareHouseDetail_Product_ProductId",
                         column: x => x.ProductId,
                         principalTable: "Product",
-                        principalColumn: "ProductId");
+                        principalColumn: "ProductId",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_WareHouseDetail_WareHouse_WareHouseId",
                         column: x => x.WareHouseId,
                         principalTable: "WareHouse",
-                        principalColumn: "WareHouseId");
+                        principalColumn: "WareHouseId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(

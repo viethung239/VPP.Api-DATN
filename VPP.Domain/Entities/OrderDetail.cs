@@ -10,8 +10,8 @@ namespace VPP.Domain.Entities
     public class OrderDetail
     {
         public Guid OrderDetailId { get; set; }
-        public Guid? OrderId { get; set; }
-        public Guid? ProductId { get; set; }
+        public Guid OrderId { get; set; }
+        public Guid ProductId { get; set; }
         public int? Quantity { get; set; }
 
         public float? Price { get; set; }

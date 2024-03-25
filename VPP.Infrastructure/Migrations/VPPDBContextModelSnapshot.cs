@@ -28,7 +28,7 @@ namespace VPP.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("CategoryGroupId")
+                    b.Property<Guid>("CategoryGroupId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("CategoryImg")
@@ -156,7 +156,7 @@ namespace VPP.Infrastructure.Migrations
                     b.Property<float?>("TotalAmount")
                         .HasColumnType("real");
 
-                    b.Property<Guid?>("UserId")
+                    b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("OrderId");
@@ -178,13 +178,13 @@ namespace VPP.Infrastructure.Migrations
                     b.Property<DateTime?>("DateUpdated")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid?>("OrderId")
+                    b.Property<Guid>("OrderId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<float?>("Price")
                         .HasColumnType("real");
 
-                    b.Property<Guid?>("ProductId")
+                    b.Property<Guid>("ProductId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int?>("Quantity")
@@ -233,7 +233,7 @@ namespace VPP.Infrastructure.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar");
 
-                    b.Property<Guid?>("UserId")
+                    b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("PostId");
@@ -249,7 +249,7 @@ namespace VPP.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("CategoryId")
+                    b.Property<Guid>("CategoryId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("DateCreated")
@@ -390,10 +390,10 @@ namespace VPP.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("RoleId")
+                    b.Property<Guid>("RoleId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("UserId")
+                    b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("UserRoleId");
@@ -444,16 +444,16 @@ namespace VPP.Infrastructure.Migrations
                     b.Property<bool?>("IsActive")
                         .HasColumnType("bit");
 
-                    b.Property<Guid?>("ProductId")
+                    b.Property<Guid>("ProductId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<float?>("Quantity")
                         .HasColumnType("real");
 
-                    b.Property<Guid?>("SupplierId")
+                    b.Property<Guid>("SupplierId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("WareHouseId")
+                    b.Property<Guid>("WareHouseId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("WareHouseDetailId");
@@ -471,7 +471,9 @@ namespace VPP.Infrastructure.Migrations
                 {
                     b.HasOne("VPP.Domain.Entities.CategoryGroup", "CategoryGroups")
                         .WithMany("Categorys")
-                        .HasForeignKey("CategoryGroupId");
+                        .HasForeignKey("CategoryGroupId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("CategoryGroups");
                 });
@@ -480,7 +482,9 @@ namespace VPP.Infrastructure.Migrations
                 {
                     b.HasOne("VPP.Domain.Entities.User", "Users")
                         .WithMany("Orders")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Users");
                 });
@@ -489,11 +493,15 @@ namespace VPP.Infrastructure.Migrations
                 {
                     b.HasOne("VPP.Domain.Entities.Order", "Orders")
                         .WithMany("OrderDetails")
-                        .HasForeignKey("OrderId");
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("VPP.Domain.Entities.Product", "Products")
                         .WithMany("OrderDetails")
-                        .HasForeignKey("ProductId");
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Orders");
 
@@ -504,7 +512,9 @@ namespace VPP.Infrastructure.Migrations
                 {
                     b.HasOne("VPP.Domain.Entities.User", "Users")
                         .WithMany("Posts")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Users");
                 });
@@ -513,7 +523,9 @@ namespace VPP.Infrastructure.Migrations
                 {
                     b.HasOne("VPP.Domain.Entities.Category", "Categorys")
                         .WithMany("Products")
-                        .HasForeignKey("CategoryId");
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Categorys");
                 });
@@ -522,11 +534,15 @@ namespace VPP.Infrastructure.Migrations
                 {
                     b.HasOne("VPP.Domain.Entities.Role", "Roles")
                         .WithMany("UserRoles")
-                        .HasForeignKey("RoleId");
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("VPP.Domain.Entities.User", "Users")
                         .WithMany("UserRoles")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Roles");
 
@@ -537,15 +553,21 @@ namespace VPP.Infrastructure.Migrations
                 {
                     b.HasOne("VPP.Domain.Entities.Product", "Products")
                         .WithMany("WareHouseDetails")
-                        .HasForeignKey("ProductId");
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("VPP.Domain.Entities.CompanySupplier", "CompanySuppliers")
                         .WithMany("WareHouseDetails")
-                        .HasForeignKey("SupplierId");
+                        .HasForeignKey("SupplierId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("VPP.Domain.Entities.WareHouse", "WareHouses")
                         .WithMany("WareHouseDetails")
-                        .HasForeignKey("WareHouseId");
+                        .HasForeignKey("WareHouseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("CompanySuppliers");
 

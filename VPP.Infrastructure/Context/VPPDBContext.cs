@@ -278,9 +278,22 @@ namespace VPP.Infrastructure.Context
                 e.HasKey(e => e.UserRoleId);
 
                 e.Property(e => e.UserRoleId)
-                .IsRequired();          
-               
+                .IsRequired();
+
+                e.HasOne(ur => ur.Roles)
+                .WithMany(r => r.UserRoles)
+                .HasForeignKey(ur => ur.RoleId)
+                .OnDelete(DeleteBehavior.Cascade)
+                .IsRequired(); 
+
+                e.HasOne(ur => ur.Users)
+                .WithMany(u => u.UserRoles)
+                .HasForeignKey(ur => ur.UserId)
+                .OnDelete(DeleteBehavior.Cascade)
+                .IsRequired();
             });
+           
+               
             modelBuilder.Entity<WareHouse>(e =>
             {
                 e.ToTable("WareHouse");

@@ -10,7 +10,7 @@ namespace VPP.Domain.Entities
     public class Post
     {
         public Guid PostId { get; set; }
-        public Guid? UserId { get; set; }
+        public Guid UserId { get; set; }
         public string? PostName { get; set; }
         public string? PostImg {  get; set; }
         public string? SContent { get; set; }

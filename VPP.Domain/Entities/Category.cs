@@ -10,7 +10,7 @@ namespace VPP.Domain.Entities
     public class Category
     {
         public Guid CategoryId { get; set; }
-        public Guid? CategoryGroupId { get; set; }
+        public Guid CategoryGroupId { get; set; }
         public string? CategoryName { get; set; }
         public string? CategoryImg {  get; set; }
         public bool? IsActive { get; set; }

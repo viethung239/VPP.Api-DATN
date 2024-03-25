@@ -10,7 +10,7 @@ namespace VPP.Domain.Entities
     public class Order
     {
         public Guid OrderId { get; set; }
-        public Guid? UserId { get; set; }
+        public Guid UserId { get; set; }
         public float? TotalAmount { get; set; }
         public string? OrderCode { get; set; }
         public int? PaymentType { get; set; }
