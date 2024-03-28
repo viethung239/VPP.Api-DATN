@@ -28,7 +28,7 @@ namespace VPP.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("CategoryGroupId")
+                    b.Property<Guid?>("CategoryGroupId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("CategoryImg")
@@ -233,7 +233,7 @@ namespace VPP.Infrastructure.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar");
 
-                    b.Property<Guid>("UserId")
+                    b.Property<Guid?>("UserId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("PostId");
@@ -249,7 +249,7 @@ namespace VPP.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("CategoryId")
+                    b.Property<Guid?>("CategoryId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("DateCreated")
@@ -472,8 +472,7 @@ namespace VPP.Infrastructure.Migrations
                     b.HasOne("VPP.Domain.Entities.CategoryGroup", "CategoryGroups")
                         .WithMany("Categorys")
                         .HasForeignKey("CategoryGroupId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.Navigation("CategoryGroups");
                 });
@@ -513,8 +512,7 @@ namespace VPP.Infrastructure.Migrations
                     b.HasOne("VPP.Domain.Entities.User", "Users")
                         .WithMany("Posts")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.Navigation("Users");
                 });
@@ -524,8 +522,7 @@ namespace VPP.Infrastructure.Migrations
                     b.HasOne("VPP.Domain.Entities.Category", "Categorys")
                         .WithMany("Products")
                         .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.Navigation("Categorys");
                 });

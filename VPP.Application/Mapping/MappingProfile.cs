@@ -14,18 +14,18 @@ namespace VPP.Application.Mapping
         public MappingProfile()
         {
 
-            CreateMap<Category, CategoryDto>();
-            CreateMap<CategoryGroup, CategoryGroupDto>();
-            CreateMap<CompanySupplier, CompanySupplierDto>();
-            CreateMap<Order, OrderDto>();
-            CreateMap<OrderDetail, OrderDetailDto>();
-            CreateMap<Product, ProductDto>();  
-            CreateMap<Post, PostDto>();
+            CreateMap<Category, CategoryDto>().ReverseMap();
+            CreateMap<CategoryGroup, CategoryGroupDto>().ReverseMap();
+            CreateMap<CompanySupplier, CompanySupplierDto>().ReverseMap();
+            CreateMap<Order, OrderDto>().ReverseMap();
+            CreateMap<OrderDetail, OrderDetailDto>().ReverseMap();
+            CreateMap<Product, ProductDto>().ReverseMap();  
+            CreateMap<Post, PostDto>().ReverseMap();
             CreateMap<User, UserDto>().ReverseMap();
             CreateMap<Role, RoleDto>().ReverseMap();
             CreateMap<UserRole, UserRoleDto>().ReverseMap();
-            CreateMap<WareHouse, WareHouseDto>();
-            CreateMap<WareHouseDetail, WareHouseDetailDto>();
+            CreateMap<WareHouse, WareHouseDto>().ReverseMap();
+            CreateMap<WareHouseDetail, WareHouseDetailDto>().ReverseMap();
             
         }
     }

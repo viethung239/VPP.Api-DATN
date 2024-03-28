@@ -52,6 +52,11 @@ namespace VPP.Infrastructure.Context
                 e.Property(e => e.DateCreated);
 
                 e.Property(e => e.DateUpdated);
+
+                e.HasOne(p => p.CategoryGroups)
+                .WithMany(c => c.Categorys)
+                .HasForeignKey(p => p.CategoryGroupId)
+                .OnDelete(DeleteBehavior.SetNull);
             });
             modelBuilder.Entity<CategoryGroup>(e =>
             {
@@ -128,6 +133,13 @@ namespace VPP.Infrastructure.Context
                 e.Property(e => e.DateCreated);
 
                 e.Property(e => e.DateUpdated);
+
+                e.HasOne(or => or.Users)
+                .WithMany(u => u.Orders)
+                .HasForeignKey(or => or.UserId)
+                .OnDelete(DeleteBehavior.Cascade)
+                .IsRequired();
+
             });
             modelBuilder.Entity<OrderDetail>(e =>
             {
@@ -146,6 +158,13 @@ namespace VPP.Infrastructure.Context
                 e.Property(e => e.DateCreated);
 
                 e.Property(e => e.DateUpdated);
+
+                e.HasOne(ord => ord.Orders)
+                .WithMany(or => or.OrderDetails)
+                .HasForeignKey(ord => ord.OrderId)
+                .OnDelete(DeleteBehavior.Cascade)
+                .IsRequired();
+
             });
             modelBuilder.Entity<Post>(e =>
             {
@@ -172,6 +191,13 @@ namespace VPP.Infrastructure.Context
                 e.Property(e => e.DateCreated);
 
                 e.Property(e => e.DateUpdated);
+
+
+                e.HasOne(p => p.Users)
+                .WithMany(c => c.Posts)
+                .HasForeignKey(p => p.UserId)
+                .OnDelete(DeleteBehavior.SetNull);
+
             });
             modelBuilder.Entity<Product>(e =>
             {
@@ -200,6 +226,14 @@ namespace VPP.Infrastructure.Context
                 e.Property(e => e.DateCreated);
 
                 e.Property(e => e.DateUpdated);
+
+                e.HasOne(p => p.Categorys) 
+                .WithMany(c => c.Products)
+                .HasForeignKey(p => p.CategoryId) 
+                .OnDelete(DeleteBehavior.SetNull);
+
+
+                
             });
             modelBuilder.Entity<Role>(e =>
             {
@@ -291,6 +325,8 @@ namespace VPP.Infrastructure.Context
                 .HasForeignKey(ur => ur.UserId)
                 .OnDelete(DeleteBehavior.Cascade)
                 .IsRequired();
+
+           
             });
            
                

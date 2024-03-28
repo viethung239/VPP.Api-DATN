@@ -10,7 +10,7 @@ namespace VPP.Domain.Entities
     public class Product
     {
         public Guid ProductId { get; set; }
-        public Guid CategoryId { get; set; }
+        public Guid? CategoryId { get; set; }
         public string? ProductName { get; set; }
         public float? ProductPrice { get; set; }
         public string? SDescription { get; set; }

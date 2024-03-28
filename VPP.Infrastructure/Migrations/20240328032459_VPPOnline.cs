@@ -110,7 +110,7 @@ namespace VPP.Infrastructure.Migrations
                 columns: table => new
                 {
                     CategoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CategoryGroupId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CategoryGroupId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CategoryName = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     CategoryImg = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
                     IsActive = table.Column<bool>(type: "bit", nullable: true),
@@ -125,7 +125,7 @@ namespace VPP.Infrastructure.Migrations
                         column: x => x.CategoryGroupId,
                         principalTable: "CategoryGroup",
                         principalColumn: "CategoryGroupId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.SetNull);
                 });
 
             migrationBuilder.CreateTable(
@@ -158,7 +158,7 @@ namespace VPP.Infrastructure.Migrations
                 columns: table => new
                 {
                     PostId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     PostName = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: true),
                     PostImg = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
                     SContent = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
@@ -175,7 +175,7 @@ namespace VPP.Infrastructure.Migrations
                         column: x => x.UserId,
                         principalTable: "User",
                         principalColumn: "UserId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.SetNull);
                 });
 
             migrationBuilder.CreateTable(
@@ -208,7 +208,7 @@ namespace VPP.Infrastructure.Migrations
                 columns: table => new
                 {
                     ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CategoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CategoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     ProductName = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: true),
                     ProductPrice = table.Column<float>(type: "real", nullable: true),
                     SDescription = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
@@ -226,7 +226,7 @@ namespace VPP.Infrastructure.Migrations
                         column: x => x.CategoryId,
                         principalTable: "Category",
                         principalColumn: "CategoryId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.SetNull);
                 });
 
             migrationBuilder.CreateTable(

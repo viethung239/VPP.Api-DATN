@@ -30,7 +30,7 @@ namespace VPP.Api.Controllers
                 }
 
                 
-                userDto.UserId = Guid.NewGuid();
+              
                 var isAdded = _userService.Add(userDto);
                
                 if (isAdded)

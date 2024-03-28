@@ -18,5 +18,6 @@ namespace VPP.Application.Dto
         public bool? IsActive { get; set; }
         public DateTime? DateCreated { get; set; }
         public DateTime? DateUpdated { get; set; }
+    
     }
 }
