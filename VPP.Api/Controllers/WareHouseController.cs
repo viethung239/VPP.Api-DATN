@@ -21,7 +21,7 @@ namespace VPP.Api.Controllers
         {
             try
             {
-                whDto.WareHouseId = Guid.NewGuid();
+               
 
                 if (_whService.Add(whDto))
                 {

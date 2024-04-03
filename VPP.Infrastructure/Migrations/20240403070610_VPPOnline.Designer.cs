@@ -12,7 +12,7 @@ using VPP.Infrastructure.Context;
 namespace VPP.Infrastructure.Migrations
 {
     [DbContext(typeof(VPPDBContext))]
-    [Migration("20240328032459_VPPOnline")]
+    [Migration("20240403070610_VPPOnline")]
     partial class VPPOnline
     {
         /// <inheritdoc />

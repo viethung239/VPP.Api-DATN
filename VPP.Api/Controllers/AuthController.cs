@@ -48,6 +48,7 @@ namespace VPP.Api.Controllers
             {
                 var fullName = user.FullName;
                 var avatar = user.Avartar;
+                var userId = user.UserId;
                 var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
                 var signingCredential = new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256);
                 var claims = new List<Claim>
@@ -55,6 +56,7 @@ namespace VPP.Api.Controllers
                     new Claim(ClaimTypes.NameIdentifier, userDto.UserName),
                      new Claim(ClaimTypes.Actor, avatar??"null"),
                      new Claim(ClaimTypes.Name, fullName??"null"),
+                     new Claim(ClaimTypes.Dsa, userId.ToString() ),
 
                 };
 

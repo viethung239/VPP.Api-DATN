@@ -362,6 +362,24 @@ namespace VPP.Infrastructure.Context
                 e.Property(e => e.DateCreated);
 
                 e.Property(e => e.DateUpdated);
+
+                e.HasOne(whd => whd.WareHouses)
+                .WithMany(wh => wh.WareHouseDetails)
+                .HasForeignKey(whd => whd.WareHouseId)
+                .OnDelete(DeleteBehavior.Cascade)
+                .IsRequired();
+
+                e.HasOne(whd => whd.CompanySuppliers)
+                .WithMany(cs => cs.WareHouseDetails)
+                .HasForeignKey(whd => whd.SupplierId)
+                .OnDelete(DeleteBehavior.Cascade)
+                .IsRequired();
+
+                e.HasOne(whd => whd.Products)
+                .WithMany(p => p.WareHouseDetails)
+                .HasForeignKey(whd => whd.ProductId)
+                .OnDelete(DeleteBehavior.Cascade)
+                .IsRequired();
             });
         }
     }
