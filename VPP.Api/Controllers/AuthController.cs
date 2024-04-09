@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -8,6 +9,8 @@ using VPP.Application.Dto;
 using VPP.Application.Services.Role;
 using VPP.Application.Services.User;
 using VPP.Application.Services.UserRole;
+using VPP.Domain.Entities;
+using VPP.Infrastructure.Context;
 
 namespace VPP.Api.Controllers
 {
@@ -18,14 +21,15 @@ namespace VPP.Api.Controllers
         private readonly IUserService _userService;
         private readonly IConfiguration _configuration;
         private readonly IUserRoleService _urService;
-
+        private readonly VPPDBContext _context;
         private readonly IRoleService _roleService;
-        public AuthController(IUserService userService, IConfiguration configuration, IUserRoleService urService, IRoleService roleService)
+        public AuthController(IUserService userService, IConfiguration configuration, IUserRoleService urService, IRoleService roleService, VPPDBContext context)
         {
             _userService = userService;
             _configuration = configuration;
             _urService = urService;
             _roleService = roleService;
+            _context = context;
         }
        
         [HttpPost("dang-nhap")]
@@ -111,6 +115,7 @@ namespace VPP.Api.Controllers
             }
 
             userDto.UserId = Guid.NewGuid();
+            userDto.Avartar = "defaultavatar.jpg";
             if (_userService.Add(userDto))
             {
               
@@ -128,6 +133,7 @@ namespace VPP.Api.Controllers
                         {
                             UserId = addedUser.UserId,
                             RoleId = defaultRole.RoleId
+                            
                         };
 
                         _urService.Add(userRole);
@@ -147,6 +153,36 @@ namespace VPP.Api.Controllers
             else
             {
                 return BadRequest(new { Message = "Đăng ký không thành công" });
+            }
+        }
+
+        [HttpPost("doi-mat-khau")]
+        public IActionResult DoiMatKhau([FromBody] ChangePasswordDto changePasswordDto)
+        {
+            if (changePasswordDto == null || string.IsNullOrEmpty(changePasswordDto.CurrentPassword) || string.IsNullOrEmpty(changePasswordDto.NewPassword))
+            {
+                return BadRequest(new { Message = "Dữ liệu không hợp lệ." });
+            }
+
+            var userIdClaim = HttpContext.User.FindFirstValue("http://schemas.microsoft.com/ws/2008/06/identity/claims/dsa");
+
+            var user = _context.Users.FirstOrDefault(u => u.UserId == new Guid(userIdClaim!));
+
+            if (user!.Password != changePasswordDto.CurrentPassword)
+            {
+                return BadRequest(new { Message = "Mật khẩu hiện tại không chính xác." });
+            }
+
+            user.Password = changePasswordDto.NewPassword;
+
+            try
+            {
+                _context.SaveChanges();
+                return Ok(new { Message = "Đổi mật khẩu thành công." });
+            }
+            catch
+            {
+                return BadRequest(new { Message = "Có lỗi xảy ra khi cập nhật mật khẩu." });
             }
         }
 

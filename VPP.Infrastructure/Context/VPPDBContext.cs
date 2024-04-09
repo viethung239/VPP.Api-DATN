@@ -165,6 +165,8 @@ namespace VPP.Infrastructure.Context
                 .OnDelete(DeleteBehavior.Cascade)
                 .IsRequired();
 
+              
+
             });
             modelBuilder.Entity<Post>(e =>
             {
