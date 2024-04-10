@@ -12,6 +12,7 @@ using VPP.Application.Services.UserRole;
 using VPP.Domain.Entities;
 using VPP.Infrastructure.Context;
 
+
 namespace VPP.Api.Controllers
 {
     [Route("api/[controller]")]
@@ -50,17 +51,16 @@ namespace VPP.Api.Controllers
 
             if (user != null)
             {
-                var fullName = user.FullName;
-                var avatar = user.Avartar;
+
+                var isAdmin = user.IsAdmin;
                 var userId = user.UserId;
                 var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
                 var signingCredential = new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256);
                 var claims = new List<Claim>
                 {
                     new Claim(ClaimTypes.NameIdentifier, userDto.UserName),
-                     new Claim(ClaimTypes.Actor, avatar??"null"),
-                     new Claim(ClaimTypes.Name, fullName??"null"),
-                     new Claim(ClaimTypes.Dsa, userId.ToString() ),
+                    new Claim(ClaimTypes.Actor, isAdmin.ToString()),
+                    new Claim(ClaimTypes.Dsa, userId.ToString() ),
 
                 };
 
@@ -113,9 +113,24 @@ namespace VPP.Api.Controllers
             {
                 return BadRequest(new { Message = "Tên tài khoản đã tồn tại." });
             }
+            string formattedDate = DateTime.UtcNow.ToString("yyyy-MM-dd");
 
             userDto.UserId = Guid.NewGuid();
             userDto.Avartar = "defaultavatar.jpg";
+            userDto.Phone = "000000000";
+            userDto.Address = "Chưa có";
+            userDto.Comune = "Chưa có";
+            userDto.District = "Chưa có";
+            userDto.City = "Chưa có";     
+            DateTime? birthDay = DateTime.Parse(formattedDate);
+            userDto.BirthDay = birthDay;
+            userDto.Gender = 2;
+            userDto.IsAdmin = false;
+            userDto.IsActive = true;
+            DateTime? dateCreated = DateTime.Parse(formattedDate);
+            userDto.DateCreated = dateCreated;
+            DateTime? dateUpdated = DateTime.Parse(formattedDate);
+            userDto.DateUpdated = dateUpdated;
             if (_userService.Add(userDto))
             {
               
