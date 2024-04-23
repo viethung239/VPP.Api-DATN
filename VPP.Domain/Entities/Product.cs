@@ -17,6 +17,7 @@ namespace VPP.Domain.Entities
         public string? LDescription { get; set; }
         public string? ProductImage { get; set; }
         public bool? IsActive { get; set; }
+        public bool? IsHot { get; set; }
         public DateTime? DateCreated { get; set; }
         public DateTime? DateUpdated { get; set; }
 

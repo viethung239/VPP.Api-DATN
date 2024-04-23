@@ -44,9 +44,6 @@ namespace VPP.Infrastructure.Context
                 e.Property(e => e.CategoryName)
                 .HasMaxLength(255).HasColumnType("nvarchar");
 
-                e.Property(e => e.CategoryImg)
-                .HasMaxLength(500).HasColumnType("nvarchar");
-
                 e.Property(e => e.IsActive);
 
                 e.Property(e => e.DateCreated);
@@ -189,6 +186,7 @@ namespace VPP.Infrastructure.Context
                 .HasMaxLength(2000).HasColumnType("nvarchar");
 
                 e.Property(e => e.IsActive);
+                e.Property(e => e.IsHot);
 
                 e.Property(e => e.DateCreated);
 
@@ -224,6 +222,8 @@ namespace VPP.Infrastructure.Context
                 .HasMaxLength(500).HasColumnType("nvarchar");
 
                 e.Property(e => e.IsActive);
+
+                e.Property(e => e.IsHot);
 
                 e.Property(e => e.DateCreated);
 

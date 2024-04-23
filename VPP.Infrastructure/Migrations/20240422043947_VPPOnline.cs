@@ -112,7 +112,6 @@ namespace VPP.Infrastructure.Migrations
                     CategoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CategoryGroupId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CategoryName = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
-                    CategoryImg = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
                     IsActive = table.Column<bool>(type: "bit", nullable: true),
                     DateCreated = table.Column<DateTime>(type: "datetime2", nullable: true),
                     DateUpdated = table.Column<DateTime>(type: "datetime2", nullable: true)
@@ -164,6 +163,7 @@ namespace VPP.Infrastructure.Migrations
                     SContent = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
                     LContent = table.Column<string>(type: "nvarchar(2000)", maxLength: 2000, nullable: true),
                     IsActive = table.Column<bool>(type: "bit", nullable: true),
+                    IsHot = table.Column<bool>(type: "bit", nullable: true),
                     DateCreated = table.Column<DateTime>(type: "datetime2", nullable: true),
                     DateUpdated = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
@@ -215,6 +215,7 @@ namespace VPP.Infrastructure.Migrations
                     LDescription = table.Column<string>(type: "nvarchar(2000)", maxLength: 2000, nullable: true),
                     ProductImage = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
                     IsActive = table.Column<bool>(type: "bit", nullable: true),
+                    IsHot = table.Column<bool>(type: "bit", nullable: true),
                     DateCreated = table.Column<DateTime>(type: "datetime2", nullable: true),
                     DateUpdated = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },

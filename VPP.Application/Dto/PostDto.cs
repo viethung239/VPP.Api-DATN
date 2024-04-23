@@ -15,6 +15,7 @@ namespace VPP.Application.Dto
         public string? SContent { get; set; }
         public string? LContent { get; set; }
         public bool? IsActive { get; set; }
+        public bool? IsHot { get; set; }
         public DateTime? DateCreated { get; set; }
         public DateTime? DateUpdated { get; set; }
     }

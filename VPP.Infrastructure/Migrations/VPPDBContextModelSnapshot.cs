@@ -31,10 +31,6 @@ namespace VPP.Infrastructure.Migrations
                     b.Property<Guid?>("CategoryGroupId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("CategoryImg")
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar");
-
                     b.Property<string>("CategoryName")
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar");
@@ -217,6 +213,9 @@ namespace VPP.Infrastructure.Migrations
                     b.Property<bool?>("IsActive")
                         .HasColumnType("bit");
 
+                    b.Property<bool?>("IsHot")
+                        .HasColumnType("bit");
+
                     b.Property<string>("LContent")
                         .HasMaxLength(2000)
                         .HasColumnType("nvarchar");
@@ -259,6 +258,9 @@ namespace VPP.Infrastructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<bool?>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool?>("IsHot")
                         .HasColumnType("bit");
 
                     b.Property<string>("LDescription")

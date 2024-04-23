@@ -12,7 +12,6 @@ namespace VPP.Domain.Entities
         public Guid CategoryId { get; set; }
         public Guid? CategoryGroupId { get; set; }
         public string? CategoryName { get; set; }
-        public string? CategoryImg {  get; set; }
         public bool? IsActive { get; set; }
         public DateTime? DateCreated { get; set; }
         public DateTime? DateUpdated { get; set; }
