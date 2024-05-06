@@ -21,7 +21,7 @@ namespace VPP.Api.Controllers
         {
             try
             {
-                orderDto.OrderId = Guid.NewGuid();
+                
 
                 if (_orderService.Add(orderDto))
                 {

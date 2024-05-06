@@ -54,6 +54,7 @@ namespace VPP.Api.Controllers
 
                 var isAdmin = user.IsAdmin;
                 var userId = user.UserId;
+                var isActive = user.IsActive;
                 var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
                 var signingCredential = new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256);
                 var claims = new List<Claim>
@@ -61,6 +62,7 @@ namespace VPP.Api.Controllers
                     new Claim(ClaimTypes.NameIdentifier, userDto.UserName),
                     new Claim(ClaimTypes.Actor, isAdmin.ToString()),
                     new Claim(ClaimTypes.Dsa, userId.ToString() ),
+                     new Claim(ClaimTypes.Dns, isActive.ToString() ),
 
                 };
 
