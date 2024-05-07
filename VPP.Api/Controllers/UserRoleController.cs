@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using VPP.Application.Dto;
 using VPP.Application.Services.UserRole;
 
 namespace VPP.Api.Controllers
 {
+    [Authorize(Roles = "Admin,NVNhanSu")]
     [Route("api/[controller]")]
     [ApiController]
     public class UserRoleController : ControllerBase

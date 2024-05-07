@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using VPP.Application.Dto;
 using VPP.Application.Services.Role;
@@ -16,6 +17,7 @@ namespace VPP.Api.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin,NVNhanSu")]
         public IActionResult AddRole(RoleDto roleDto)
         {
             try
@@ -68,6 +70,7 @@ namespace VPP.Api.Controllers
             }
         }
         [HttpPut("{id}")]
+        [Authorize(Roles = "Admin,NVNhanSu")]
         public IActionResult UpdateRole(Guid id, RoleDto roleDto)
         {
             try
@@ -90,6 +93,7 @@ namespace VPP.Api.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin,NVNhanSu")]
         public IActionResult DeleteRole(Guid id)
         {
             try

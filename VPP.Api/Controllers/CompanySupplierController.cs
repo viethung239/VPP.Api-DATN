@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using VPP.Application.Dto;
 using VPP.Application.Services.CategoryGroup;
@@ -17,6 +18,7 @@ namespace VPP.Api.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin,NVSanPham")]
         public IActionResult AddCompanySupplier(CompanySupplierDto splDto)
         {
             try
@@ -69,6 +71,7 @@ namespace VPP.Api.Controllers
             }
         }
         [HttpPut("{id}")]
+        [Authorize(Roles = "Admin,NVSanPham")]
         public IActionResult UpdateCompanySupplier(Guid id, CompanySupplierDto splDto)
         {
             try
@@ -91,6 +94,7 @@ namespace VPP.Api.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin,NVSanPham")]
         public IActionResult DeleteCompanySupplier(Guid id)
         {
             try

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using VPP.Application.Dto;
@@ -6,6 +7,7 @@ using VPP.Application.Services.User;
 
 namespace VPP.Api.Controllers
 {
+    
     [Route("api/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
@@ -18,6 +20,7 @@ namespace VPP.Api.Controllers
         }
      
         [HttpPost]
+        [Authorize(Roles = "Admin,NVNhanSu")]
         public IActionResult AddUser(UserDto userDto)
         {
             try
@@ -103,6 +106,7 @@ namespace VPP.Api.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin,NVNhanSu")]
         public IActionResult DeleteUser(Guid id)
         {
             try

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using VPP.Application.Dto;
 using VPP.Application.Services.Category;
@@ -17,6 +18,7 @@ namespace VPP.Api.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin,NVMKT")]
         public IActionResult AddPost(PostDto postDto)
         {
             try
@@ -69,6 +71,7 @@ namespace VPP.Api.Controllers
             }
         }
         [HttpPut("{id}")]
+        [Authorize(Roles = "Admin,NVMKT")]
         public IActionResult UpdatePost(Guid id, PostDto postDto)
         {
             try
@@ -91,6 +94,7 @@ namespace VPP.Api.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin,NVMKT")]
         public IActionResult DeletePost(Guid id)
         {
             try

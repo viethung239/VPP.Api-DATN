@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using VPP.Application.Dto;
 using VPP.Application.Services.Category;
@@ -18,6 +19,7 @@ namespace VPP.Api.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin,NVSanPham")]
         public IActionResult AddCategory(CategoryDto categoryDto)
         {
             try
@@ -70,6 +72,7 @@ namespace VPP.Api.Controllers
             }
         }
         [HttpPut("{id}")]
+        [Authorize(Roles = "Admin,NVSanPham")]
         public IActionResult UpdateCategory(Guid id, CategoryDto categoryDto)
         {
             try
@@ -92,6 +95,7 @@ namespace VPP.Api.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin,NVSanPham")]
         public IActionResult DeleteCategory(Guid id)
         {
             try
